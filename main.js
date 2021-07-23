@@ -32,12 +32,21 @@ function getMyData() {
     ajaxRequest.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
 
+            //Displaying raw json
             var outputDisplay = document.getElementById("output-display");
             //outputDisplay.innerHTML = ajaxRequest.responseText;
             //Because we have responseType defined we can use .response method (However we returning an generic object)
-            outputDisplay.innerHTML = JSON.stringify(ajaxRequest.response); //? how to get the value not [Object object] ?
+            outputDisplay.innerHTML = JSON.stringify(ajaxRequest.response)
+
+            //Diplaying single json item
             var nameOutput = document.getElementById("name-output");
             nameOutput.innerHTML = ajaxRequest.response[0].witchers[1].name;
+
+            //Displaying iteration through json
+            var renderJsonField = document.getElementById("render-json");
+            for (var i in ajaxRequest.response[0]) {
+                renderJsonField.insertAdjacentHTML("afterbegin", `<div>${i}</div>`);
+            }
         }
     };
 
@@ -46,4 +55,5 @@ function getMyData() {
     ajaxRequest.open("GET", ServerURL, true);
     ajaxRequest.responseType = "json";
     ajaxRequest.send();
+
 }
